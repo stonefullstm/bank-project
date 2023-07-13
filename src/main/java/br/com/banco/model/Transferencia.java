@@ -17,7 +17,7 @@ public class Transferencia {
   @Column
   private double valor;
   @Column
-  private Tipo tipo;
+  private String tipo;
   @Column(name = "NOME_OPERADOR_TRANSACAO")
   private String nomeOperadorTransacao;
 
@@ -66,14 +66,14 @@ public class Transferencia {
   /**
    * @return the tipo
    */
-  public Tipo getTipo() {
+  public String getTipo() {
     return tipo;
   }
 
   /**
    * @param tipo the tipo to set
    */
-  public void setTipo(Tipo tipo) {
+  public void setTipo(String tipo) {
     this.tipo = tipo;
   }
 

@@ -1,15 +1,14 @@
 package br.com.banco.dto;
 
 import java.util.Date;
-import br.com.banco.model.Tipo;
 
 public class TransferenciaDto {
   private Date dataTransferencia;
   private double valor;
-  private Tipo tipo;
+  private String tipo;
   private String nomeOperadorTransacao;
 
-  public TransferenciaDto(Date dataTransferencia, double valor, Tipo tipo,
+  public TransferenciaDto(Date dataTransferencia, double valor, String tipo,
       String nomeOperadorTransacao) {
     super();
     this.dataTransferencia = dataTransferencia;
@@ -49,14 +48,14 @@ public class TransferenciaDto {
   /**
    * @return the tipo
    */
-  public Tipo getTipo() {
+  public String getTipo() {
     return tipo;
   }
 
   /**
    * @param tipo the tipo to set
    */
-  public void setTipo(Tipo tipo) {
+  public void setTipo(String tipo) {
     this.tipo = tipo;
   }
 
