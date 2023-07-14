@@ -1,5 +1,6 @@
 package br.com.banco.service;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,11 @@ public class TransferenciaService {
       String nomeOperadorTransacao) {
     return this.transferenciaRepository.findByContaAndNomeOperadorTransacao(conta,
         nomeOperadorTransacao);
+  }
+
+  public List<Transferencia> findByContaAndDataTransferenciaAfter(Conta conta,
+      Date dataTransferencia) {
+    return this.transferenciaRepository.findByContaAndDataTransferenciaAfter(conta,
+        dataTransferencia);
   }
 }
