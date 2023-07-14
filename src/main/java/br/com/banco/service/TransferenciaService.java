@@ -19,4 +19,14 @@ public class TransferenciaService {
   public List<Transferencia> findByConta(Conta conta) {
     return this.transferenciaRepository.findByConta(conta);
   }
+
+  public double getSaldoTotal(Conta conta) {
+    return this.transferenciaRepository.getSaldoTotal(conta);
+  }
+
+  public List<Transferencia> findByContaAndNomeOperadorTransacao(Conta conta,
+      String nomeOperadorTransacao) {
+    return this.transferenciaRepository.findByContaAndNomeOperadorTransacao(conta,
+        nomeOperadorTransacao);
+  }
 }
