@@ -3,9 +3,13 @@ package br.com.banco.model;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Transferencia {
@@ -20,6 +24,10 @@ public class Transferencia {
   private String tipo;
   @Column(name = "NOME_OPERADOR_TRANSACAO")
   private String nomeOperadorTransacao;
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "CONTA_ID")
+  private Conta conta;
 
   /**
    * @return the id
@@ -91,4 +99,17 @@ public class Transferencia {
     this.nomeOperadorTransacao = nomeOperadorTransacao;
   }
 
+  /**
+   * @return the conta
+   */
+  public Conta getConta() {
+    return conta;
+  }
+
+  /**
+   * @param conta the conta to set
+   */
+  public void setConta(Conta conta) {
+    this.conta = conta;
+  }
 }
