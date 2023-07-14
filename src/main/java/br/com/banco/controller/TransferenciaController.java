@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import br.com.banco.model.Transferencia;
 import br.com.banco.service.ContaService;
 import br.com.banco.service.TransferenciaService;
@@ -32,10 +31,7 @@ public class TransferenciaController {
   @GetMapping("/{id}")
   public ResponseEntity<List<Transferencia>> findByConta(@PathVariable("id") Long id) {
     var conta = this.contaService.findById(id);
-    if (conta.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-    List<Transferencia> transferencias = this.transferenciaService.findByConta(conta.get());
+    List<Transferencia> transferencias = this.transferenciaService.findByConta(conta);
     return ResponseEntity.status(HttpStatus.OK).body(transferencias);
   }
 }

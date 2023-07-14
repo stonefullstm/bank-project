@@ -1,9 +1,9 @@
 package br.com.banco.service;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.com.banco.exceptions.EntityNaoExistenteException;
 import br.com.banco.model.Conta;
 import br.com.banco.repository.ContaRepository;
 
@@ -16,8 +16,9 @@ public class ContaService {
     return this.contaRepository.findAll();
   }
 
-  public Optional<Conta> findById(Long id) {
-    return this.contaRepository.findById(id);
+  public Conta findById(Long id) {
+    return this.contaRepository.findById(id)
+        .orElseThrow(() -> new EntityNaoExistenteException("Conta não encontrada"));
   }
 
 }
