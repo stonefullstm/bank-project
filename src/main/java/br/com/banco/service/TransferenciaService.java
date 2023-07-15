@@ -2,6 +2,7 @@ package br.com.banco.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.banco.model.Conta;
@@ -17,35 +18,15 @@ public class TransferenciaService {
     return this.transferenciaRepository.findAll();
   }
 
-  public List<Transferencia> findByConta(Conta conta) {
-    return this.transferenciaRepository.findByConta(conta);
-  }
-
   public double getSaldoTotal(Conta conta) {
     return this.transferenciaRepository.getSaldoTotal(conta);
   }
 
-  public List<Transferencia> findByContaAndNomeOperadorTransacao(Conta conta,
-      String nomeOperadorTransacao) {
-    return this.transferenciaRepository.findByContaAndNomeOperadorTransacao(conta,
-        nomeOperadorTransacao);
-  }
-
-  public List<Transferencia> findByContaAndDataTransferenciaAfter(Conta conta,
-      Date dataTransferencia) {
-    return this.transferenciaRepository.findByContaAndDataTransferenciaAfter(conta,
-        dataTransferencia);
-  }
-
-  public List<Transferencia> findByContaAndDataTransferenciaBefore(Conta conta,
-      Date dataTransferencia) {
-    return this.transferenciaRepository.findByContaAndDataTransferenciaBefore(conta,
-        dataTransferencia);
-  }
-
-  public List<Transferencia> findByContaAndDataTransferenciaBetween(Conta conta,
-      Date dataTransferenciaInicial, Date dataTransferenciaFinal) {
-    return this.transferenciaRepository.findByContaAndDataTransferenciaBetween(conta,
+  public List<Transferencia> findAllByOptionalFilters(Conta conta,
+      Optional<String> nomeOperadorTransacao, Optional<Date> dataTransferenciaInicial,
+      Optional<Date> dataTransferenciaFinal) {
+    return this.transferenciaRepository.findAllByOptionalFilters(conta, nomeOperadorTransacao,
         dataTransferenciaInicial, dataTransferenciaFinal);
   }
+
 }

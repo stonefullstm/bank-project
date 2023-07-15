@@ -2,6 +2,7 @@ package br.com.banco.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import br.com.banco.model.Conta;
@@ -13,14 +14,9 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
   @Query("SELECT SUM(t.valor) from Transferencia t where t.conta= ?1")
   double getSaldoTotal(Conta conta);
 
-  List<Transferencia> findByContaAndNomeOperadorTransacao(Conta conta,
-      String nomeOperadorTransacao);
-
-  List<Transferencia> findByContaAndDataTransferenciaAfter(Conta conta, Date dataTransferencia);
-
-  List<Transferencia> findByContaAndDataTransferenciaBefore(Conta conta, Date dataTransferencia);
-
-  List<Transferencia> findByContaAndDataTransferenciaBetween(Conta conta,
-      Date dataTransferenciaInicial, Date dataTransferenciaFinal);
+  @Query("SELECT t FROM Transferencia t WHERE (t.conta = :conta) AND (:operador IS NULL OR t.nomeOperadorTransacao = :operador)"
+      + " AND (:dataInicial IS NULL OR t.dataTransferencia >= :dataInicial) AND (:dataFinal IS NULL OR t.dataTransferencia <= :dataFinal)")
+  List<Transferencia> findAllByOptionalFilters(Conta conta, Optional<String> operador,
+      Optional<Date> dataInicial, Optional<Date> dataFinal);
 
 }
