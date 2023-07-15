@@ -42,4 +42,10 @@ public class TransferenciaService {
     return this.transferenciaRepository.findByContaAndDataTransferenciaBefore(conta,
         dataTransferencia);
   }
+
+  public List<Transferencia> findByContaAndDataTransferenciaBetween(Conta conta,
+      Date dataTransferenciaInicial, Date dataTransferenciaFinal) {
+    return this.transferenciaRepository.findByContaAndDataTransferenciaBetween(conta,
+        dataTransferenciaInicial, dataTransferenciaFinal);
+  }
 }
