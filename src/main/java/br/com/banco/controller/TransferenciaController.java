@@ -17,6 +17,7 @@ import br.com.banco.model.Extrato;
 import br.com.banco.model.Transferencia;
 import br.com.banco.service.ContaService;
 import br.com.banco.service.TransferenciaService;
+import br.com.banco.utils.BinaryUtils;
 
 @RestController
 @RequestMapping("/transferencias")
@@ -42,20 +43,30 @@ public class TransferenciaController {
     var conta = this.contaService.findById(id);
     var saldo = this.transferenciaService.getSaldoTotal(conta);
     List<Transferencia> transferencias = new ArrayList<Transferencia>();
-    if (operador.isEmpty() && datainicial.isEmpty() && datafinal.isEmpty()) {
-      transferencias = this.transferenciaService.findByConta(conta);
-    } else if (datainicial.isEmpty() && datafinal.isEmpty()) {
-      transferencias =
-          this.transferenciaService.findByContaAndNomeOperadorTransacao(conta, operador.get());
-    } else if (datafinal.isEmpty()) {
-      transferencias =
-          this.transferenciaService.findByContaAndDataTransferenciaAfter(conta, datainicial.get());
-    } else if (datainicial.isEmpty()) {
-      transferencias =
-          this.transferenciaService.findByContaAndDataTransferenciaBefore(conta, datafinal.get());
-    } else if (operador.isEmpty()) {
-      transferencias = this.transferenciaService.findByContaAndDataTransferenciaBetween(conta,
-          datainicial.get(), datafinal.get());
+    // Converte a existencia dos parâmetros em binário e equivalente inteiro
+    int queryId = BinaryUtils.binaryStringToInt("" + BinaryUtils.boolToInt(!operador.isEmpty())
+        + BinaryUtils.boolToInt(!datainicial.isEmpty())
+        + BinaryUtils.boolToInt(!datafinal.isEmpty()));
+    switch (queryId) {
+      case 0:
+        transferencias = this.transferenciaService.findByConta(conta);
+        break;
+      case 1:
+        transferencias =
+            this.transferenciaService.findByContaAndDataTransferenciaBefore(conta, datafinal.get());
+        break;
+      case 2:
+        transferencias = this.transferenciaService.findByContaAndDataTransferenciaAfter(conta,
+            datainicial.get());
+        break;
+      case 3:
+        transferencias = this.transferenciaService.findByContaAndDataTransferenciaBetween(conta,
+            datainicial.get(), datafinal.get());
+        break;
+      case 4:
+        transferencias =
+            this.transferenciaService.findByContaAndNomeOperadorTransacao(conta, operador.get());
+        break;
     }
     Extrato extrato = new Extrato(saldo, transferencias);
     return ResponseEntity.status(HttpStatus.OK).body(extrato);
