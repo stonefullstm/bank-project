@@ -50,6 +50,9 @@ public class TransferenciaController {
     } else if (datafinal.isEmpty()) {
       transferencias =
           this.transferenciaService.findByContaAndDataTransferenciaAfter(conta, datainicial.get());
+    } else if (datainicial.isEmpty()) {
+      transferencias =
+          this.transferenciaService.findByContaAndDataTransferenciaBefore(conta, datafinal.get());
     }
     Extrato extrato = new Extrato(saldo, transferencias);
     return ResponseEntity.status(HttpStatus.OK).body(extrato);

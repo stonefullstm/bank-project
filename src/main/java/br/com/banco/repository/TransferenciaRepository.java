@@ -17,4 +17,6 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
       String nomeOperadorTransacao);
 
   List<Transferencia> findByContaAndDataTransferenciaAfter(Conta conta, Date dataTransferencia);
+
+  List<Transferencia> findByContaAndDataTransferenciaBefore(Conta conta, Date dataTransferencia);
 }
