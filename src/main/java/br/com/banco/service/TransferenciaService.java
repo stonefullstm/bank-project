@@ -25,6 +25,7 @@ public class TransferenciaService {
   public List<Transferencia> findAllByOptionalFilters(Conta conta,
       Optional<String> nomeOperadorTransacao, Optional<Date> dataTransferenciaInicial,
       Optional<Date> dataTransferenciaFinal) {
+
     return this.transferenciaRepository.findAllByOptionalFilters(conta, nomeOperadorTransacao,
         dataTransferenciaInicial, dataTransferenciaFinal);
   }

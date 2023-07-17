@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,8 @@ import br.com.banco.service.ContaService;
 import br.com.banco.service.TransferenciaService;
 
 @RestController
+@CrossOrigin
+@Validated
 @RequestMapping("/transferencias")
 public class TransferenciaController {
 
@@ -33,7 +36,6 @@ public class TransferenciaController {
     return ResponseEntity.status(HttpStatus.OK).body(transferencias);
   }
 
-  @CrossOrigin
   @GetMapping("/{id}")
   public ResponseEntity<Extrato> findByConta(@PathVariable("id") Long id,
       @RequestParam Optional<String> operador, @RequestParam Optional<Date> datainicial,

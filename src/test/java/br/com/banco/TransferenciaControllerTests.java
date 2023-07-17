@@ -57,4 +57,12 @@ class TransferenciaControllerTests {
         .andExpect(jsonPath("$.saldoTotal").value(33636.19));
   }
 
+  @Test
+  @Order(4)
+  @DisplayName("4 - Deve retornar não encontrado quando não houver Conta com dado id.")
+  void deveRetornarNaoEncontradoQuandoNaoHouverContaComDadoId() throws Exception {
+    mockMvc.perform(get("/transferencias/3").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.message").value("Conta não encontrada"));
+  }
 }
