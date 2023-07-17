@@ -1,5 +1,6 @@
 package br.com.banco;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -34,7 +35,7 @@ class TransferenciaControllerTests {
   void deveRetornarTodasAsTransacoesExistentesNoBanco() throws Exception {
     mockMvc.perform(get("/transferencias").contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].valor").value(30895.46))
+        .andExpect(jsonPath("$", hasSize(6))).andExpect(jsonPath("$[0].valor").value(30895.46))
         .andExpect(jsonPath("$[1].valor").value(12.24));
   }
 
@@ -44,6 +45,7 @@ class TransferenciaControllerTests {
   void deveRetornarTodasAsTransacoesDeUmaContaNoBanco() throws Exception {
     mockMvc.perform(get("/transferencias/1").contentType(MediaType.APPLICATION_JSON))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        .andExpect(jsonPath("$.transferencias", hasSize(3)))
         .andExpect(jsonPath("$.transferencias[0].valor").value(30895.46))
         .andExpect(jsonPath("$.transferencias[1].valor").value(-500.5));
   }
