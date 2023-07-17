@@ -61,10 +61,36 @@ class TransferenciaControllerTests {
 
   @Test
   @Order(4)
-  @DisplayName("4 - Deve retornar não encontrado quando não houver Conta com dado id.")
+  @DisplayName("4 - Deve retornar \"Conta não encontrada\" quando não houver Conta com dado id.")
   void deveRetornarNaoEncontradoQuandoNaoHouverContaComDadoId() throws Exception {
     mockMvc.perform(get("/transferencias/3").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("$.message").value("Conta não encontrada"));
   }
+
+  @Test
+  @Order(5)
+  @DisplayName("5 - Deve retornar todas as transações de uma conta com um dado operador.")
+  void deveRetornarTodasAsTransacoesDeUmaContaComUmDadoOperador() throws Exception {
+    mockMvc
+        .perform(get("/transferencias/1?operador=Beltrano").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        .andExpect(jsonPath("$.transferencias", hasSize(1)))
+        .andExpect(jsonPath("$.saldoTotal").value(33636.19))
+        .andExpect(jsonPath("$.transferencias[0].valor").value(3241.23));
+  }
+
+  @Test
+  @Order(6)
+  @DisplayName("6 - Deve retornar todas as transações de uma conta num intervalo de datas.")
+  void deveRetornarTodasAsTransacoesDeUmaNumIntervaloDeDatas() throws Exception {
+    mockMvc
+        .perform(get("/transferencias/1?datainicial=04/05/2019&datafinal=09/06/2020")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        .andExpect(jsonPath("$.transferencias", hasSize(2)))
+        .andExpect(jsonPath("$.saldoTotal").value(33636.19))
+        .andExpect(jsonPath("$.transferencias[0].valor").value(-500.5));
+  }
+
 }
