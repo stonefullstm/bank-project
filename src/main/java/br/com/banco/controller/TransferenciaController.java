@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,8 +39,9 @@ public class TransferenciaController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Extrato> findByConta(@PathVariable("id") Long id,
-      @RequestParam Optional<String> operador, @RequestParam Optional<Date> datainicial,
-      @RequestParam Optional<Date> datafinal) {
+      @RequestParam Optional<String> operador,
+      @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") Optional<Date> datainicial,
+      @RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") Optional<Date> datafinal) {
     var conta = this.contaService.findById(id);
     var saldo = this.transferenciaService.getSaldoTotal(conta);
     List<Transferencia> transferencias =
